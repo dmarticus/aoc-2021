@@ -38,11 +38,11 @@ fn main() -> Result<(), io::Error> {
       // create a three-measurement sliding window to collect sums of 3 subsequent measurements
       .windows(3)
       // accumulate the sum within that window
-      .map(|sample| { sample.iter().fold(0, |acc, x| { acc + x }) })
+      .map(|sample| { sample.iter().sum() })
       .collect::<Vec<i32>>()
       // now create a two-measurement sliding window to compare sums
       .windows(2)
-      // apply the same collection as part 1
+      // apply the same comparison and collection as part 1
       .map(|value| { value[1] > value[0] })
       .filter(|&increased| increased)
       .count()
