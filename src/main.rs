@@ -16,7 +16,8 @@ fn main() -> Result<(), io::Error> {
       measurements.push(line.unwrap().parse::<i32>().unwrap());
   }
 
-  // part 1
+  println!("Day 1\r\n{}", "-".repeat(5));
+  // day 1, part 1
   println!("Part 1\r\n{}", "-".repeat(10));
   println!(
     "{}\r\n",
@@ -30,10 +31,10 @@ fn main() -> Result<(), io::Error> {
       .count()
   );
 
-  // part 2
+  // day 1, part 2
   println!("Part 2\r\n{}", "-".repeat(10));
   println!(
-    "{}",
+    "{}\r\n",
     measurements
       // create a three-measurement sliding window to collect sums of 3 subsequent measurements
       .windows(3)
@@ -48,5 +49,52 @@ fn main() -> Result<(), io::Error> {
       .count()
   );
 
+  // part 2, part 1
+  let path = "./inputs/day2.txt";
+  let input = File::open(path)?;
+  let buffered = BufReader::new(input);
+  let lines: Vec<String> = buffered.lines().flatten().collect();
+
+  let mut h0: i32 = 0;
+  let mut d0: i32 = 0;
+
+  lines.iter().for_each(|line| {
+      let mut command = line.split_whitespace();
+      let direction = command.next().unwrap();
+      let magnitude = command.next().unwrap().parse::<i32>().unwrap();
+      match direction {
+          "forward" => h0 += magnitude,
+          "up" => d0 -= magnitude,
+          "down" => d0 += magnitude,
+          _ =>  println!("Throw the switch Vern, she's pumping mud")
+      }
+  });
+
+  println!("Day 2\r\n{}", "-".repeat(5));
+  println!("\rPart 1\r\n{}", "-".repeat(10));
+  println!("Horizontal: {}\tDepth: {}\tProduct: {}\r\n", h0, d0, h0 * d0);
+
+
+  let mut aim: i32 = 0;
+  let mut h1: i32 = 0;
+  let mut d1: i32 = 0;
+
+  lines.iter().for_each(|line| {
+      let mut command = line.split_whitespace();
+      let direction = command.next().unwrap();
+      let magnitude = command.next().unwrap().parse::<i32>().unwrap();
+      match direction {
+          "forward" => {h1 += magnitude;  d1 += aim * magnitude},
+          "up" => aim -= magnitude,
+          "down" => aim += magnitude,
+          _ =>  println!("Throw the switch Vern, she's pumping mud")
+      }
+  });
+
+  println!("Part 2\r\n{}", "-".repeat(10));
+  println!("Horizontal: {}\tDepth: {}\tProduct: {}\r\n", h1, d1, h1 * d1);
+
+
   Ok(())
+
 }
